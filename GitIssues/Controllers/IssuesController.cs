@@ -15,9 +15,9 @@ namespace GitIssuesManager.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetAllIssues()
+        public async Task<ActionResult<string>> GetAllIssues(string repositoryApiURL)
         {
-            using HttpResponseMessage response = await _issuesManager.GetAllIssuesAsync();
+            using HttpResponseMessage response = await _issuesManager.GetAllIssuesAsync(repositoryApiURL);
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadAsStringAsync();
@@ -29,9 +29,9 @@ namespace GitIssuesManager.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> AddIssue(string name, string description)
+        public async Task<ActionResult<string>> AddIssue(string repositoryApiURL, string name, string description)
         {
-            using HttpResponseMessage response = await _issuesManager.AddIssueAsync(name, description);
+            using HttpResponseMessage response = await _issuesManager.AddIssueAsync(repositoryApiURL, name, description);
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadAsStringAsync();
@@ -43,9 +43,9 @@ namespace GitIssuesManager.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult<string>> ModifyIssue(string name, string description, int issueNumber)
+        public async Task<ActionResult<string>> ModifyIssue(string repositoryApiURL, string name, string description, int issueNumber)
         {
-            using HttpResponseMessage response = await _issuesManager.ModifyIssueAsync(name, description, issueNumber);
+            using HttpResponseMessage response = await _issuesManager.ModifyIssueAsync(repositoryApiURL, name, description, issueNumber);
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadAsStringAsync();
@@ -58,9 +58,9 @@ namespace GitIssuesManager.Controllers
 
         [HttpPatch]
         [Route("CloseIssue")]
-        public async Task<ActionResult<string>> CloseIssue(int issueNumber)
+        public async Task<ActionResult<string>> CloseIssue(string repositoryApiURL, int issueNumber)
         {
-            using HttpResponseMessage response = await _issuesManager.CloseIssueAsync(issueNumber);
+            using HttpResponseMessage response = await _issuesManager.CloseIssueAsync(repositoryApiURL, issueNumber);
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadAsStringAsync();

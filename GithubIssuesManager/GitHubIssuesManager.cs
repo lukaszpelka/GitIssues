@@ -4,10 +4,10 @@ namespace GitHubIssuesManager
 {
     public class GitHubIssuesManager : IIssuesManager
     {
-        public async Task<HttpResponseMessage> AddIssueAsync(string name, string description)
+        public async Task<HttpResponseMessage> AddIssueAsync(string repositoryApiURL, string name, string description)
         {
             using var client = new HttpClient();
-            using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.github.com/repos/lukaszpelka/GitIssues/issues");
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"{repositoryApiURL}/issues");
             FillRequestHeaders(request);
 
             var contentJson = Newtonsoft.Json.JsonConvert.SerializeObject(new { body = description, title = name });
@@ -19,10 +19,10 @@ namespace GitHubIssuesManager
             return response;
         }
 
-        public async Task<HttpResponseMessage> CloseIssueAsync(int issueNumber)
+        public async Task<HttpResponseMessage> CloseIssueAsync(string repositoryApiURL, int issueNumber)
         {
             using var client = new HttpClient();
-            using var request = new HttpRequestMessage(HttpMethod.Patch, $"https://api.github.com/repos/lukaszpelka/GitIssues/issues/{issueNumber}");
+            using var request = new HttpRequestMessage(HttpMethod.Patch, $"{repositoryApiURL}/issues/{issueNumber}");
             FillRequestHeaders(request);
 
             var contentJson = Newtonsoft.Json.JsonConvert.SerializeObject(new { state = "closed", state_reason = "completed" });
@@ -34,20 +34,20 @@ namespace GitHubIssuesManager
             return response;
         }
 
-        public async Task<HttpResponseMessage> GetAllIssuesAsync()
+        public async Task<HttpResponseMessage> GetAllIssuesAsync(string repositoryApiURL)
         {
             using var client = new HttpClient();
-            using var request = new HttpRequestMessage(HttpMethod.Get, "https://api.github.com/repos/lukaszpelka/GitIssues/issues");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"{repositoryApiURL}/issues");
             FillRequestHeaders(request);
 
             HttpResponseMessage response = await client.SendAsync(request);
             return response;
         }
 
-        public async Task<HttpResponseMessage> ModifyIssueAsync(string name, string description, int issueNumber)
+        public async Task<HttpResponseMessage> ModifyIssueAsync(string repositoryApiURL, string name, string description, int issueNumber)
         {
             using var client = new HttpClient();
-            using var request = new HttpRequestMessage(HttpMethod.Patch, $"https://api.github.com/repos/lukaszpelka/GitIssues/issues/{issueNumber}");
+            using var request = new HttpRequestMessage(HttpMethod.Patch, $"{repositoryApiURL}/issues/{issueNumber}");
             FillRequestHeaders(request);
 
             var contentJson = Newtonsoft.Json.JsonConvert.SerializeObject(new { body = description, title = name });
@@ -63,7 +63,7 @@ namespace GitHubIssuesManager
         {
             request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
             request.Headers.Add("Accept", "application/vnd.github+json");
-            request.Headers.Add("User-Agent", "lukaszpelka");
+            request.Headers.Add("User-Agent", "xxxxxxxx");
             request.Headers.Add("Authorization", "Bearer github_pat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         }
     }
