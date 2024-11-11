@@ -1,7 +1,5 @@
 ﻿using IssuesManagerAbstract;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Xml.Linq;
 
 namespace GitIssues.Controllers
 {
@@ -17,67 +15,67 @@ namespace GitIssues.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IssuesManagerAbstract.Issue[]>> GetAllIssues()
+        public async Task<ActionResult<string>> GetAllIssues()
         {
-            using (HttpResponseMessage response = await _issuesManager.GetAllIssues())
+            using (HttpResponseMessage response = await _issuesManager.GetAllIssuesAsync())
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return JsonConvert.DeserializeObject<Issue[]>(await response.Content.ReadAsStringAsync()) ?? Array.Empty<Issue>();
+                    return await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    return Problem(await response.Content.ReadAsStringAsync(), await response.RequestMessage.Content.ReadAsStringAsync(), ((int)response.StatusCode));
+                    return Problem(await response.Content.ReadAsStringAsync(), statusCode: ((int)response.StatusCode));
                 }
             }
         }
 
 
         [HttpPost]
-        public async Task<ActionResult<IssuesManagerAbstract.Issue>> AddIssue(string name, string description)
+        public async Task<ActionResult<string>> AddIssue(string name, string description)
         {
-            using (HttpResponseMessage response = await _issuesManager.AddIssue(name, description))
+            using (HttpResponseMessage response = await _issuesManager.AddIssueAsync(name, description))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return JsonConvert.DeserializeObject<Issue>(await response.Content.ReadAsStringAsync()) ?? new Issue();
+                    return await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    return Problem(await response.Content.ReadAsStringAsync(), await response.RequestMessage.Content.ReadAsStringAsync(), ((int)response.StatusCode));
+                    return Problem(await response.Content.ReadAsStringAsync(), statusCode: ((int)response.StatusCode));
                 }
             }
         }
 
         [HttpPatch]
-        public async Task<ActionResult<IssuesManagerAbstract.Issue>> ModifyIssue(string name, string description, int issueNumber)
+        public async Task<ActionResult<string>> ModifyIssue(string name, string description, int issueNumber)
         {
-            using (HttpResponseMessage response = await _issuesManager.ModifyIssue(name, description, issueNumber))
+            using (HttpResponseMessage response = await _issuesManager.ModifyIssueAsync(name, description, issueNumber))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return JsonConvert.DeserializeObject<Issue>(await response.Content.ReadAsStringAsync()) ?? new Issue();
+                    return await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    return Problem(await response.Content.ReadAsStringAsync(), await response.RequestMessage.Content.ReadAsStringAsync(), ((int)response.StatusCode));
+                    return Problem(await response.Content.ReadAsStringAsync(), statusCode: ((int)response.StatusCode));
                 }
             }
         }
 
         [HttpPatch]
         [Route("CloseIssue")]
-        public async Task<ActionResult<IssuesManagerAbstract.Issue>> CloseIssue(int issueNumber)
+        public async Task<ActionResult<string>> CloseIssue(int issueNumber)
         {
-            using (HttpResponseMessage response = await _issuesManager.CloseIssue(issueNumber))
+            using (HttpResponseMessage response = await _issuesManager.CloseIssueAsync(issueNumber))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return JsonConvert.DeserializeObject<Issue>(await response.Content.ReadAsStringAsync()) ?? new Issue();
+                    return await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    return Problem(await response.Content.ReadAsStringAsync(), await response.RequestMessage.Content.ReadAsStringAsync(), ((int)response.StatusCode));
+                    return Problem(await response.Content.ReadAsStringAsync(), statusCode: ((int)response.StatusCode));
                 }
             }
         }

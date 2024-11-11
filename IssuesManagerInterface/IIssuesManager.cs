@@ -1,15 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace IssuesManagerAbstract
+﻿namespace IssuesManagerAbstract
 {
+    /// <summary>
+    /// Interfejs managera zarządzającego problemami (Issues) w repozytorium 
+    /// </summary>
     public interface IIssuesManager
     {
-        public Task<HttpResponseMessage> GetAllIssues();
+        /// <summary>
+        /// Pobiera wszystkie problemy określonego repozytorium
+        /// </summary>
+        /// <returns>Odpowiedź REST</returns>
+        public Task<HttpResponseMessage> GetAllIssuesAsync();
 
-        public Task<HttpResponseMessage> AddIssue(string name, string description);
+        /// <summary>
+        /// Dodaje problem do określonego repozytorium o przekazanym tytule i opisie
+        /// </summary>
+        /// <param name="name">Tytuł problemu</param>
+        /// <param name="description">Opis problemu</param>
+        /// <returns>Odpowiedź REST</returns>
+        public Task<HttpResponseMessage> AddIssueAsync(string name, string description);
 
-        public Task<HttpResponseMessage> ModifyIssue(string name, string description, int issueNumber);
+        /// <summary>
+        /// Modyfikuje tytuł i opis problemu o wskazanym numerze
+        /// </summary>
+        /// <param name="name">Tytuł problemu</param>
+        /// <param name="description">Opis problemu</param>
+        /// <param name="issueNumber">Numer edytowanego problemu</param>
+        /// <returns>Odpowiedź REST</returns>
+        public Task<HttpResponseMessage> ModifyIssueAsync(string name, string description, int issueNumber);
 
-        public Task<HttpResponseMessage> CloseIssue(int issueNumber);
+        /// <summary>
+        /// Zamyka problem o numerze wskazanym w parametrze
+        /// </summary>
+        /// <param name="issueNumber">Numer problemu</param>
+        /// <returns>Odpowiedź REST</returns>
+        public Task<HttpResponseMessage> CloseIssueAsync(int issueNumber);
     }
 }

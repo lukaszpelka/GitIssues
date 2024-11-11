@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GithubIssuesManager\GitHubIssuesManager.csproj" />
+    <ProjectReference Include="..\GitLabIssuesManager\GitLabIssuesManager.csproj" />
     <ProjectReference Include="..\IssuesManagerInterface\IssuesManagerAbstract.csproj" />
   </ItemGroup>
 
